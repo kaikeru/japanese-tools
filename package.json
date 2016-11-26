@@ -1,0 +1,49 @@
+{
+    "name": "workspace",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "dependencies": {
+        "bluebird": "^3.4.6",
+        "body-parser": "^1.15.2",
+        "connect-flash": "^0.1.1",
+        "cookie-parser": "*",
+        "debug": "^2.2.0",
+        "express": "^4.14.0",
+        "express-handlebars": "^3.0.0",
+        "express-session": "^1.14.2",
+        "mongoose": "^4.6.5",
+        "morgan": "^1.7.0",
+        "serve-favicon": "^2.3.0"
+    },
+    "devDependencies": {
+        "bootstrap-sass": "^3.3.7",
+        "browserify": "^13.1.1",
+        "browserify-shim": "^3.8.12",
+        "gulp": "^3.9.1",
+        "gulp-browserify": "^0.5.1",
+        "gulp-clean-css": "^2.0.12",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "^2.3.2",
+        "jquery": "^3.1.1",
+        "jsdom": "^9.8.3",
+        "mdbootstrap": "^4.1.1",
+        "prompt": "^1.0.0",
+        "snapsvg": "git+https://github.com/adobe-webplatform/Snap.svg.git#de1f207",
+        "xmlserializer": "^0.6.0"
+    },
+    "browserify": {
+        "transform": [
+            "browserify-shim"
+        ]
+    },
+    "browserify-shim": {
+        "bootstrap": {
+            "depends": [
+                "jquery:jQuery"
+            ]
+        }
+    }
+}
