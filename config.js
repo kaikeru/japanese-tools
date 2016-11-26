@@ -4,6 +4,9 @@ var config = {
         social: {
             twitter: process.env.TWITTER || "twitterName",
             facebook: process.env.FACEBOOK || "facebookname"
+        },
+        google: {
+            analyticsID: process.env.GOOGLE_ANALYTICS_ID
         }
     },
     mongodb: {
