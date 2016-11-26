@@ -2,13 +2,13 @@
 
 Simple tools for learning Japanese hosted at http://nihongo.kaikeru.com.
 
-### Prerequisites
+## Prerequisites
 
 Japanese Tools are built on [Node.js](https://nodejs.org) and [MongoDB](https://www.mongodb.com) for the backend storage so install both on your system if you wish to run the tools.
 
 Not provided is the kanji data used by the tools. The stroke order can be compiled using the scripts in `/tools` and loaded in to the `/models/kanji.js` model.
 
-### Installing
+## Installing
 After cloning and installing Node and Mongo, you need to install the dependencies using `npm`.
 
 ```
@@ -27,23 +27,23 @@ or if you want to have the build on each frontend file change
 gulp watch
 ```
 
-### Running
+## Running
 
-#### npm
+### npm
 The system uses Node to run. The easiest way to run the tools is using `npm`.
 
 ```
 npm start
 ```
 
-#### node
+### node
 Or you can use Node.
 
 ```
 node bin/www
 ```
 
-#### nodemon
+### nodemon
 I highly recommend installing [nodemon](https://github.com/remy/nodemon) for development purposes so that the system reloads changes if you make any coding changes.
 
 ```
