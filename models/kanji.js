@@ -27,12 +27,28 @@ var kanjiSchema = new Schema({
     },
     unicode: {
         type: String,
-        required: true,
         unique: true
     },
     svg: {
-        type: [String],
-        required: true
+        type: [String]
+    },
+    radicalNumber: {
+        type: Number
+    },
+    jouyouGrade: {
+        type: Number
+    },
+    strokeCount: {
+        type: [Number]
+    },
+    frequencyOfUse: {
+        type: Number
+    },
+    oldJlptLevel: {
+        type: Number
+    },
+    nelsonId: {
+        type: Number
     }
 });
 

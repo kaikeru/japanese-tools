@@ -1,13 +1,14 @@
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "./variables";
 @import "./mixins";
-@import url('https://fonts.googleapis.com/css?family=Sintony');
+@import url('https://fonts.googleapis.com/css?family=Sintony:400,700');
 // @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 
 
 // -----------------------------------------------------------------------------
 // --- Tags ---
 // -----------------------------------------------------------------------------
+
 html{
     font-size: 17px;
     margin: 0;
@@ -124,5 +125,60 @@ body {
     .logo {
         height: 30px;
         width: auto;
+    }
+}
+
+#kanji-worksheet {
+    .kanji-strokes {
+        text-align: center;
+        svg {
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+            margin-top: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+    }
+    ul.kanji-info {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        .character {
+            font-size: 2rem;
+        }
+
+        li {
+            .reading-type {
+                font-weight: bold;
+            }
+            margin-right: 1rem;
+            display: inline;
+        }
+    }
+    .branding {
+        display: block;
+        text-align: right;
+        .logo{
+            width:200px;
+            height: auto;
+        }
+    }
+}
+
+@media screen {
+    #kanji-worksheet {
+        .branding {
+            display: none !important;
+        }
+    }
+}
+
+@media print {
+    #aboutIcon {
+        display: none !important;
+    }
+
+    .index-header {
+        display: none !important;
     }
 }

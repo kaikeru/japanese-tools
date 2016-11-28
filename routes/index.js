@@ -62,9 +62,28 @@ router.get('/kanji/:kanji/worksheet', function(req, res, next){
         if (retKanji == null) {
             next();
         } else {
-            res.render('kanji', {
-                'title': retKanji.character,
-                'svg': retKanji.svg
+            //Get the kanji filler size
+            var totalBoxes = 90;
+            var boxes = retKanji.svg.concat(kh.getEmptyDiagramBox(totalBoxes - retKanji.svg.length));
+            var onyomi = null;
+            if (retKanji.readings.onyomi){
+                onyomi = retKanji.readings.onyomi.join(', ');
+            }
+            var kunyomi = null;
+            if (retKanji.readings.kunyomi){
+                kunyomi = retKanji.readings.kunyomi.join(', ');
+            }
+            var meanings = null;
+            if (retKanji.meanings){
+                meanings = retKanji.meanings.join(', ');
+            }
+            res.render('kanji-worksheet', {
+                'title': retKanji.character + " Writing Worksheet",
+                'character': retKanji.character,
+                'onyomi': onyomi,
+                'kunyomi': kunyomi,
+                'meanings': meanings,
+                'svg': boxes
             });
         }
     });
