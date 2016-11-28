@@ -53,7 +53,7 @@ router.get('/kanji/:kanji', function(req, res, next){
     });
 });
 
-router.get('/kanji/:kanji/worksheet', function(req, res, next){
+router.get('/worksheet/:kanji', function(req, res, next){
     var kanji = req.params.kanji;
     var retKanji = null;
     kh.getKanjiSVG([kanji]).then((k) => {

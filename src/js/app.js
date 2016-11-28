@@ -43,7 +43,7 @@ function createKanjiStrokeItem(kanjiObj){
     }
 
     // Print button
-    var printButton = $("<a target='_blank' class='printButton btn btn-success' href='/kanji/" + kanjiObj.character + "/worksheet' role='button'><span class='glyphicon glyphicon-print' aria-hidden='true'></span>&nbsp;&nbsp;Worksheet</a>")
+    var printButton = $("<a target='_blank' class='printButton btn btn-success' href='/worksheet/" + kanjiObj.character + "' role='button'><span class='glyphicon glyphicon-print' aria-hidden='true'></span>&nbsp;&nbsp;Worksheet</a>")
     meta.append(printButton);
 
     // Right
