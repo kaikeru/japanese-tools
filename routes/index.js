@@ -63,7 +63,7 @@ router.get('/worksheet/:kanji', function(req, res, next){
             next();
         } else {
             //Get the kanji filler size
-            var totalBoxes = 90;
+            var totalBoxes = 80;
             var boxes = retKanji.svg.concat(kh.getEmptyDiagramBox(totalBoxes - retKanji.svg.length));
             var onyomi = null;
             if (retKanji.readings.onyomi){

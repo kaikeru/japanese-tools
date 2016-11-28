@@ -1,8 +1,4 @@
 <div id="kanji-worksheet" class="container">
-    <div class="branding">
-        <img src="/img/logo.jpg" alt="JapaneseTools" class="logo">
-        <div class="url">http://nihongo.kaikeru.com</div>
-    </div>
     <ul class="kanji-info">
         <li class="character">
             {{character}}
@@ -25,7 +21,11 @@
     </ul>
     <div class="kanji-strokes">
         {{#each svg}}
-        {{{this}}}
+            {{{this}}}
         {{/each}}
+    </div>
+    <div class="branding">
+        <img src="/img/logo.jpg" alt="JapaneseTools" class="logo">
+        <div class="url">http://nihongo.kaikeru.com</div>
     </div>
 </div>
