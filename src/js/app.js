@@ -12,9 +12,7 @@ function createKanjiStrokeItem(kanjiObj){
     listItem.append(meta);
 
     // Title
-    var title = $("<h3 class='character'></h3>");
-    var titleLink = $("<a href='/kanji/" + kanjiObj.character + "'>" + kanjiObj.character + "</a>");
-    title.append(titleLink);
+    var title = $("<h3 class='character'>" + kanjiObj.character + "</h3>");
     meta.append(title);
 
     // Readings
@@ -43,6 +41,10 @@ function createKanjiStrokeItem(kanjiObj){
         nanori.append($("<td class='reading'></td>").append(kanjiObj.readings.nanori.join(', ')));
         readings.append(nanori);
     }
+
+    // Print button
+    var printButton = $("<a target='_blank' class='printButton btn btn-success' href='/kanji/" + kanjiObj.character + "/worksheet' role='button'><span class='glyphicon glyphicon-print' aria-hidden='true'></span>&nbsp;&nbsp;Worksheet</a>")
+    meta.append(printButton);
 
     // Right
     var rightCol = $("<div class='col-md-9'></div>");
