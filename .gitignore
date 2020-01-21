@@ -63,3 +63,8 @@ rest-api/\.idea/
 rest-api/\.editorconfig
 
 rest-api/target/
+
+# IDE
+.vscode
+.project
+.classpath

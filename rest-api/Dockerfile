@@ -1,4 +1,4 @@
-FROM vertx/vertx3
+FROM vertx/vertx3-exec
 
 ENV VERTICLE_NAME com.kaikeru.nihongo.api.Application
 ENV VERTICLE_FILE target/rest-api-1.0.0-SNAPSHOT-fat.jar

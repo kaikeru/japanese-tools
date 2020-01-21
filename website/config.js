@@ -10,7 +10,7 @@ var config = {
         }
     },
     mongodb: {
-        uri: process.env.MONGODB_URI || process.env.IP || "localhost"
+        uri: process.env.MONGODB_URI || process.env.IP || "mongodb://root:password@localhost"
     }
 }
 
