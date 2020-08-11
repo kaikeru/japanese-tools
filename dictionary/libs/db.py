@@ -1,7 +1,7 @@
 """The Database manager using PeeWee"""
 
 from peewee import PostgresqlDatabase
-from libs.config import get_config
+from config import get_config
 
 
 def get_db() -> PostgresqlDatabase:
