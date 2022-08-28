@@ -7,8 +7,11 @@ from django.db.models import (
     ForeignKey,
     DateField,
     DateTimeField,
+    TextField,
     CASCADE,
 )
+
+### KANJI ###
 
 
 class KanjidictVersion(Model):
@@ -53,7 +56,7 @@ class KanjiMeaning(Model):
 
     lang = CharField(max_length=16)
     meaning = CharField(max_length=128)
-    kanji = ForeignKey(Kanji, on_delete=CASCADE, related_name='meanings')
+    kanji = ForeignKey(Kanji, on_delete=CASCADE, related_name="meanings")
 
     class Meta:
         db_table = "kanji_meaning"
@@ -112,7 +115,9 @@ class KanjiReferenceDaikanwajiten(Model):
 
     volume = CharField(max_length=32)
     page = CharField(max_length=32)
-    kanji_reference_index = ForeignKey(KanjiReferenceIndex, on_delete=CASCADE, related_name="reference_diakanwajiten")
+    kanji_reference_index = ForeignKey(
+        KanjiReferenceIndex, on_delete=CASCADE, related_name="reference_diakanwajiten"
+    )
 
     class Meta:
         """Model metadata"""
@@ -155,3 +160,117 @@ class KanjiVariant(Model):
         """Meta class"""
 
         db_table = "kanji_variant"
+
+
+### KOTOBA ###
+
+
+class Kotoba(Model):
+    """
+    A Japanese word.
+    Kind of weird because there can be multiple readings for a single entry.
+    This model is more of a glue to keep the entries together.
+    """
+
+    created = DateTimeField(auto_now_add=True)
+    jmdict_sequence = CharField(max_length=64)
+
+    class Meta:
+        db_table = "kotoba"
+
+
+class KotobaKanji(Model):
+    """
+    A Kanji meaning associated with the kotoba.
+    May not be part of the Kotoba or not.
+    """
+
+    kotoba = ForeignKey(Kotoba, on_delete=CASCADE, related_name="kanji")
+    value = CharField(max_length=128)
+    information = CharField(max_length=32, null=True, default=None)
+    priority = CharField(max_length=32, null=True, default=None)
+
+    class Meta:
+        db_table = "kotoba_kanji"
+
+
+class KotobaReading(Model):
+    """
+    Reading for a kotoba
+    A Kotoba entry will always have at least one reading.
+    """
+
+    kotoba = ForeignKey(Kotoba, on_delete=CASCADE, related_name="kana")
+    value = CharField(max_length=128)
+    information = CharField(max_length=32, null=True, default=None)
+    priority = CharField(max_length=32, null=True, default=None)
+
+    class Meta:
+        db_table = "kotoba_reading"
+
+
+class KotobaKanjiToReading(Model):
+    """
+    A mapping of Kanji to Readings
+    """
+
+    kanji = ForeignKey(KotobaKanji, on_delete=CASCADE, related_name="related_kana")
+    reading = ForeignKey(KotobaReading, on_delete=CASCADE, related_name="related_kanji")
+
+    class Meta:
+        db_table = "kotoba_kanji_to_reading"
+
+
+class KotobaMeaning(Model):
+    """
+    The overall meaning of the kotoba with grouped definitions.
+    Think of these as the word feel. There can be multiple meanings depending on the
+    usage of the kotoba. Each meaning can have concreate definitions associated.
+    """
+
+    kotoba = ForeignKey(Kotoba, on_delete=CASCADE, related_name="meanings")
+    information = TextField(null=True, default=None)
+
+    class Meta:
+        db_table = "kotoba_meaning"
+
+
+class KotobaMeaningField(Model):
+    """
+    Fields for various meanings
+    """
+
+    meaning = ForeignKey(KotobaMeaning, on_delete=CASCADE, related_name="fields")
+    value = CharField(max_length=32)
+    type = CharField(max_length=32)
+
+    class Meta:
+        db_table = "kotoba_meaning_field"
+
+
+class KotobaMeaningLoanSource(Model):
+    """
+    Loan word source information about the meaning.
+    """
+
+    meaning = ForeignKey(KotobaMeaning, on_delete=CASCADE, related_name="loan_sources")
+    language = CharField(max_length=32, null=True, default=None)
+    word = CharField(max_length=128, null=True, default=None)
+    type = CharField(max_length=32, null=True, default=None)
+
+    class Meta:
+        db_table = "kotoba_meaning_loan_source"
+
+
+class KotobaMeaningDefinition(Model):
+    """
+    The various concrete definitions for a meaning.
+    """
+
+    meaning = ForeignKey(KotobaMeaning, on_delete=CASCADE, related_name="definitions")
+    value = TextField()
+    language = CharField(max_length=32, default="eng")
+    type = CharField(max_length=32, null=True, default=None)
+
+    class Meta:
+        db_table = "kotoba_meaning_definition"

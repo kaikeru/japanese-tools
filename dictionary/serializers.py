@@ -8,7 +8,16 @@ from .models import (
     KanjiReferenceIndex,
     KanjiReferenceDaikanwajiten,
     KanjiVariant,
+    Kotoba,
+    KotobaKanji,
+    KotobaMeaningDefinition,
+    KotobaMeaningField,
+    KotobaMeaningLoanSource,
+    KotobaReading,
+    KotobaMeaning,
 )
+
+### KANJI
 
 
 class KanjiMeaningSerializer(serializers.ModelSerializer):
@@ -85,3 +94,71 @@ class KanjiSerializer(serializers.ModelSerializer):
             "reference_indexes",
             "reference_diakanwajiten",
         ]
+
+
+### KOTOBA
+
+
+class KotobaKanjiReadingIdField(serializers.RelatedField):
+    def to_representation(self, value):
+        return value.reading.id
+
+
+class KotobaKanjiSerializer(serializers.ModelSerializer):
+    related_kana = KotobaKanjiReadingIdField(many=True, read_only=True)
+
+    class Meta:
+        model = KotobaKanji
+        fields = ["id", "value", "related_kana", "information", "priority"]
+
+
+class KotobaReadingKanjiIdField(serializers.RelatedField):
+    def to_representation(self, value):
+        return value.kanji.id
+
+
+class KotobaReadingSerializer(serializers.ModelSerializer):
+
+    related_kanji = KotobaReadingKanjiIdField(many=True, read_only=True)
+
+    class Meta:
+        model = KotobaReading
+        fields = ["id", "value", "related_kanji", "information", "priority"]
+
+
+class KotobaMeaningFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KotobaMeaningField
+        fields = ["type", "value"]
+
+
+class KotobaMeaningLoanSourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KotobaMeaningLoanSource
+        fields = ["language", "word", "type"]
+
+
+class KotobaMeaningDefinitionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KotobaMeaningDefinition
+        fields = ["value", "type", "language"]
+
+
+class KotobaMeaningSerializer(serializers.ModelSerializer):
+    fields = KotobaMeaningFieldSerializer(many=True, read_only=True)
+    loan_sources = KotobaMeaningLoanSourceSerializer(many=True, read_only=True)
+    definitions = KotobaMeaningDefinitionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = KotobaMeaning
+        fields = ["definitions", "information", "fields", "loan_sources"]
+
+
+class KotobaSerializer(serializers.ModelSerializer):
+    kanji = KotobaKanjiSerializer(many=True, read_only=True)
+    kana = KotobaReadingSerializer(many=True, read_only=True)
+    meanings = KotobaMeaningSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Kotoba
+        fields = ["kanji", "kana", "meanings"]
