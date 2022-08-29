@@ -29,7 +29,7 @@ gzip -d $dictionaryFilesDir/kanjidic2.xml.gz
 
 ## JMDict
 wget --directory-prefix=$dictionaryFilesDir http://ftp.edrdg.org/pub/Nihongo/JMdict.gz
-gzip -d $dictionaryFilesDir/JMDict.gz
+gzip -d $dictionaryFilesDir/JMdict.gz
 mv $dictionaryFilesDir/JMdict $dictionaryFilesDir/JMdict.xml
 
 # Load dictonaries
