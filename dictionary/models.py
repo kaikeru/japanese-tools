@@ -247,6 +247,22 @@ class KotobaMeaningField(Model):
     class Meta:
         db_table = "kotoba_meaning_field"
 
+class KotobaMeaningToKanji(Model):
+    """
+    Releates the Meaning to a Reading
+    """
+
+    meaning = ForeignKey(KotobaMeaning, on_delete=CASCADE, related_name="kanji")
+    kanji = ForeignKey(KotobaKanji, on_delete=CASCADE, related_name="meanings")
+
+class KotobaMeaningToReading(Model):
+    """
+    Releates the Meaning to a Reading
+    """
+    meaning = ForeignKey(KotobaMeaning, on_delete=CASCADE, related_name="kana")
+    reading = ForeignKey(KotobaReading, on_delete=CASCADE, related_name="meanings")
+
+
 
 class KotobaMeaningLoanSource(Model):
     """

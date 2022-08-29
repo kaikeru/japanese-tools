@@ -18,6 +18,8 @@ from dictionary.models import (
     Kotoba,
     KotobaKanji,
     KotobaMeaningDefinition,
+    KotobaMeaningToKanji,
+    KotobaMeaningToReading,
     KotobaReading,
     KotobaKanjiToReading,
     KotobaMeaning,
@@ -47,7 +49,7 @@ def main():
         readings = [x.value for x in kotoba.kanji.all()]
 
         if len(readings) == 0:
-            readings = [x.value for x in kotoba.readings.all()]
+            readings = [x.value for x in kotoba.kana.all()]
 
         print("Created kotoba ({}) with {}".format(kotoba.jmdict_sequence, readings))
 
@@ -137,7 +139,9 @@ def get_kotoba_meaning_elements(
     for s in root.findall("sense"):
 
         info = s.findtext("s_inf")
-        meaning, _created = KotobaMeaning.objects.get_or_create(kotoba=kotoba, information=info)
+        meaning, _created = KotobaMeaning.objects.get_or_create(
+            kotoba=kotoba, information=info
+        )
 
         new_misc = get_kotoba_meaning_misc(meaning, s, "misc", "MISC")
 
@@ -169,7 +173,35 @@ def get_kotoba_meaning_elements(
 
         for g in s.findall("gloss"):
             type = g.attrib["g_type"] if "g_type" in g.attrib else None
-            KotobaMeaningDefinition.objects.get_or_create(meaning=meaning, type=type, value=g.text)
+            KotobaMeaningDefinition.objects.get_or_create(
+                meaning=meaning, type=type, value=g.text
+            )
+
+        stagk_list = s.findall("stagk")
+        if len(stagk_list) > 0:
+            for stagk in stagk_list:
+                value = stagk.text
+                for k in kanji_list:
+                    if value == k.value:
+                        KotobaMeaningToKanji.objects.get_or_create(
+                            meaning=meaning, kanji=k
+                        )
+        else:
+            for k in kanji_list:
+                KotobaMeaningToKanji.objects.get_or_create(meaning=meaning, kanji=k)
+
+        stagr_list = s.findall("stagr")
+        if len(stagr_list) > 0:
+            for stagr in stagr_list:
+                value = stagr.text
+                for r in readings:
+                    if value == r.value:
+                        KotobaMeaningToReading.objects.get_or_create(
+                            meaning=meaning, reading=r
+                        )
+        else:
+            for r in readings:
+                KotobaMeaningToReading.objects.get_or_create(meaning=meaning, reading=r)
 
 
 def get_kotoba_meaning_misc(

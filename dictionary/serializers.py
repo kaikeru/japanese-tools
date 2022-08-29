@@ -103,13 +103,18 @@ class KotobaKanjiReadingIdField(serializers.RelatedField):
     def to_representation(self, value):
         return value.reading.id
 
+class KotobaKanjiMeaningIdField(serializers.RelatedField):
+    def to_representation(self, value):
+        return value.meaning.id
+
 
 class KotobaKanjiSerializer(serializers.ModelSerializer):
     related_kana = KotobaKanjiReadingIdField(many=True, read_only=True)
+    meanings = KotobaKanjiMeaningIdField(many=True, read_only=True)
 
     class Meta:
         model = KotobaKanji
-        fields = ["id", "value", "related_kana", "information", "priority"]
+        fields = ["id", "value", "related_kana", "meanings", "information", "priority"]
 
 
 class KotobaReadingKanjiIdField(serializers.RelatedField):
@@ -120,10 +125,12 @@ class KotobaReadingKanjiIdField(serializers.RelatedField):
 class KotobaReadingSerializer(serializers.ModelSerializer):
 
     related_kanji = KotobaReadingKanjiIdField(many=True, read_only=True)
+    meanings = KotobaKanjiMeaningIdField(many=True, read_only=True)
+
 
     class Meta:
         model = KotobaReading
-        fields = ["id", "value", "related_kanji", "information", "priority"]
+        fields = ["id", "value", "related_kanji", "meanings", "information", "priority"]
 
 
 class KotobaMeaningFieldSerializer(serializers.ModelSerializer):
@@ -151,14 +158,15 @@ class KotobaMeaningSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = KotobaMeaning
-        fields = ["definitions", "information", "fields", "loan_sources"]
+        fields = ["id", "definitions", "information", "fields", "loan_sources"]
 
 
 class KotobaSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="kotoba-detail")
     kanji = KotobaKanjiSerializer(many=True, read_only=True)
     kana = KotobaReadingSerializer(many=True, read_only=True)
     meanings = KotobaMeaningSerializer(many=True, read_only=True)
 
     class Meta:
         model = Kotoba
-        fields = ["kanji", "kana", "meanings"]
+        fields = ["id", "url", "kanji", "kana", "meanings"]
