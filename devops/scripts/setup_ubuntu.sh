@@ -1,0 +1,35 @@
+#! /usr/bin/env bash
+
+# Run as ROOT
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+
+apt install python3.9
+apt install sqlite3
+apt install nginx
+
+cd $SCRIPT_DIR/../../
+
+python3.9 -m venv venv
+source venv/bin/activate
+pip install -r requirements
+
+deactivate
+
+# Copy configs
+cd $SCRIPT_DIR/../server_files
+cp ./etc/nginx/sites-avilable/japanese-tools /etc/nginx/sites-avilable/japanese-tools
+ln -s /etc/nginx/sites-avilable/japanese-tools /etc/nginx/sites-enabled/
+
+cp ./etc/systemd/systems/gunicorn.service /etc/systemd/systems/gunicorn.service
+
+# Start services
+
+systemctl start gunicorn
+systemctl enable gunicorn
+
+systemctl start nginx
+systemctl enable nginx
