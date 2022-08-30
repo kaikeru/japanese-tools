@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block nav-style %}mkt-nav{% endblock nav-style %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-third has-text-center">
+                <h1 class="character" lang="ja">{{ kanji.literal }}</h1>
+                <div class="columns">
+                    <div class="kanji-details stroke-count has-text-weight-semibold has-text-left">
+                       {{ kanji.stroke_count }} strokes
+                    </div>
+                </div>
+            </div>
+            <div class="column is-two-thirds">Hello</div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

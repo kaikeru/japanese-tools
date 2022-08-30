@@ -61,7 +61,7 @@ ROOT_URLCONF = "japanesetools.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -122,7 +122,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT="/var/www/static"
+STATICFILES_DIRS = ["static"]
+STATIC_ROOT = "/var/www/static"
 STATIC_URL = "static/"
 
 # Default primary key field type

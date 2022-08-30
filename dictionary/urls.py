@@ -1,10 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import KanjiViewSet, KotobaViewSet, SearchView
+from .views import kanji_detail
 
-# Create a router and register our viewsets with it.
-router = DefaultRouter()
-router.register(r"kanji", KanjiViewSet, basename="kanji")
-router.register(r"kotoba", KotobaViewSet, basename="kotoba")
 # The API URLs are now determined automatically by the router.
-urlpatterns = [path("", include(router.urls)), path("search/<str:query>", SearchView.as_view())]
+
+urlpatterns = [
+    path("kanji/<str:literal>", kanji_detail, name="kanji_detail")
+]

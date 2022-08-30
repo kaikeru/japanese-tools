@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            Login to ComicNode
+        </h1>
+        <div class="columns">
+            <div class="column is-one-third">
+                <form id="login-form" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label for="id_username" class="label">Username</label>
+                        <div class="control">
+                            <input id="id_username" name="username" class="input is-success" type="text">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="id_password" class="label">Password</label>
+                        <div class="control">
+                            <input id="id_password" name="password" class="input is-success" type="password">
+                        </div>
+                    </div>
+                    {% if form.errors %}
+                    <p class=" label label-danger">
+                        Your username and password didn't match.
+                        Please try again.
+                    </p>
+                    {% endif %}
+
+                    <div class="control">
+                        <input type="submit" class="button is-link" value="Login"></button>
+                    </div>
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block nav-style %}mkt-nav{% endblock nav-style %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        {% if page_title %}
+        <h1 class="title">{{ page_title }}</h1>
+        {% else %}
+        <h1 class="title">Create New Book</h1>
+        {% endif %}
+        <form id="book-edit" method="post" enctype="multipart/form-data">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Series Title</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Text input" value="{{ book.series.title }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Issue Number</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Text input" value="{{ book.issue.number }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock content %}
