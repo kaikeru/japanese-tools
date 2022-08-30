@@ -1,0 +1,5 @@
+dbs:
+  - path: /home/ubuntu/japanese-tools/db.sqlite
+    replicas:
+      - url: s3://<BACKUP_BUCKET>/db-backups/japanese-tools.db
+        sync-interval: 5m
